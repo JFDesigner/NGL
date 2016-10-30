@@ -10,7 +10,7 @@ QT += opengl
 QT += core
 QT += gui
 QT -=xml
-CONFIG+=c++11
+CONFIG+=c++14
 
 # use this to remove any marked as deprecated classes from NGL
 DEFINES += REMOVEDDEPRECATED
@@ -31,6 +31,7 @@ equals(IMAGELIB,"USEIMAGEMAGIC"){
 equals(IMAGELIB,"USEOIIO"){
 	LIBS+=-L/usr/local/lib/ -lOpenImageIO
 }
+
 # to ensure we don't get any ABI issues use c++ and correct libs on mac
 
 # as I want to support 4.8 and 5 this will set a flag for some of the mac stuff
@@ -54,7 +55,7 @@ QMAKE_LFLAGS_COMPAT_VERSION=
 QMAKE_LFLAGS_SONAME=
 # use this to suppress some warning from boost
 unix:QMAKE_CXXFLAGS_WARN_ON += "-Wno-unused-parameter"
-macx:QMAKE_MAC_SDK = macosx10.11
+macx:QMAKE_MAC_SDK=macosx10.12
 # define the NGL_DEBUG flag for the graphics lib
 DEFINES += NGL_DEBUG
 # if you install boost to /usr/local/include/ we can find it from this line
@@ -65,6 +66,9 @@ unix:INCLUDEPATH+=/usr/local/include
 QMAKE_CFLAGS+= -DGLEW_NO_GLU -DGLEW_STATIC
 unix:QMAKE_CXXFLAGS_WARN_ON += -Wno-builtin-macro-redefined -isystem
 macx:DEFINES +=GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
+macx {
+QMAKE_POST_LINK = install_name_tool -id @rpath/$$PWD/lib/libNGL.1.0.0.dylib $$PWD/lib/libNGL.1.0.0.dylib
+}
 
 # this is where to look for includes
 INCLUDEPATH += $$BASE_DIR/include/ngl
@@ -72,6 +76,10 @@ INCLUDEPATH += $$BASE_DIR/glew/
 INCLUDEPATH += $$BASE_DIR/src/ngl
 INCLUDEPATH +=$$BASE_DIR/src/shaders
 INCLUDEPATH +=$$BASE_DIR/include/rapidjson
+# using the fmt library https://github.com/fmtlib/fmt but header only.
+DEFINES+=FMT_HEADER_ONLY
+INCLUDEPATH +=$$BASE_DIR/include/fmt
+
 unix:LIBS += -L/usr/local/lib
 LIBS+= -lboost_system
 # set the SRC_DIR so we can find the project files
@@ -91,7 +99,6 @@ macx:{
 	#DEFINES += DARWIN
 }
 
-
 # in this case unix is also mac so we need to exclude mac from the unix build
 win32|unix:!macx{
 	# now define some linux specific flags
@@ -109,11 +116,12 @@ win32|unix:!macx{
 win32{
 				message("Using Windows check to see what needs to be installed")
 				CONFIG+=staticlib
-                                INCLUDEPATH +=$$(BOOST)\include\boost-1_61
+        		INCLUDEPATH += C:/SDKs/ #for university STEM build
+                INCLUDEPATH +=$$(BOOST)\include\boost-1_61
 				DEFINES+=_USE_MATH_DEFINES
 				# Silence some boost warnings
 				DEFINES+= _SCL_SECURE_NO_WARNINGS
-                                DESTDIR=$$BASE_DIR
+                DESTDIR=$$BASE_DIR
 				DEFINES += NO_DLL
 				DEFINES += GLEW_STATIC
 }

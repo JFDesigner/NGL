@@ -26,18 +26,6 @@
 namespace ngl
 {
 
-
-//----------------------------------------------------------------------------------------------------------------------
-Texture::Texture() noexcept
-{
-	m_width=0;
-	m_height=0;
-	m_multiTextureID=0;
-	m_hasAlpha=false;
-	m_channels=0;
-	m_format=0;
-}
-
 //----------------------------------------------------------------------------------------------------------------------
 Texture::Texture( const std::string &_fname  )
 {
@@ -52,20 +40,18 @@ Texture::Texture( const std::string &_fname  )
 
 bool Texture::loadImage( const std::string  &_fname )
 {
-	m_width=m_image.width();
-	m_height=m_image.height();
-	m_channels=m_image.channels();
-	m_format=m_image.format();
-	m_multiTextureID=0;
-
-	return m_image.load(_fname);
+  bool status=m_image.load(_fname);
+  if(status)
+  {
+    m_width=m_image.width();
+    m_height=m_image.height();
+    m_channels=m_image.channels();
+    m_format=m_image.format();
+    m_multiTextureID=0;
+  }
+  return status;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-Texture::~Texture()
-{
-	// smart pointer in image clears for us
-}
 
 
 //----------------------------------------------------------------------------------------------------------------------

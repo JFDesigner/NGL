@@ -19,7 +19,6 @@
 #include "Mat3.h"
 #include "NGLassert.h"
 #include <cmath>
-#include <boost/format.hpp>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Vec3.cpp
 /// @brief implementation files for Vec3 class
@@ -166,17 +165,6 @@ Vec3 Vec3::operator *(Real _i)const noexcept
 	return Vec3(m_x*_i,m_y*_i,m_z*_i);
 }
 
-
-
-//----------------------------------------------------------------------------------------------------------------------
-Vec3 & Vec3::operator=(const Vec3& _v) noexcept
-{
-	m_x = _v.m_x;
-	m_y = _v.m_y;
-	m_z = _v.m_z;
-	return *this;
-}
-
 //----------------------------------------------------------------------------------------------------------------------
 Vec3 & Vec3::operator=(Real _v) noexcept
 {
@@ -185,6 +173,8 @@ Vec3 & Vec3::operator=(Real _v) noexcept
   m_z = _v;
   return *this;
 }
+
+
 //----------------------------------------------------------------------------------------------------------------------
 Vec3 & Vec3::operator=(const Vec4& _v) noexcept
 {

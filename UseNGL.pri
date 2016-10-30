@@ -1,6 +1,6 @@
 #This file is included in any project that requires NGL it will be searched for 
 #in the default $(HOME)/NGL/  directory if this can't be found the environment variable $NGLDIR will be searched for and this will be used.
-CONFIG+=c++11
+CONFIG+=c++14
 macx:CONFIG-=app_bundle
 
 # as I want to support 4.8 and 5 this will set a flag for some of the mac stuff
@@ -31,6 +31,8 @@ linux-g++-64:QMAKE_CXXFLAGS +=  -march=native
 # define the _DEBUG flag for the graphics lib
 DEFINES +=NGL_DEBUG
 OTHER_FILES+=sceneSetup.vrscene
+QMAKE_RPATHDIR+=L$${NGLBASE}/lib
+
 unix:LIBS += -L/usr/local/lib
 # add the ngl lib note the { } for the environment variable QMake variable's value at time qmake is run 
 unix:LIBS +=  -L$${NGLBASE}/lib -l NGL
@@ -39,14 +41,15 @@ unix:LIBS +=  -L$${NGLBASE}/lib -l NGL
 linux-*{
 		linux-*:QMAKE_CXXFLAGS +=  -march=native
 		LIBS+=-ltiff
-		#DEFINES += LINUX
 }
 DEPENDPATH+=include
 # if we are on a mac define DARWIN
-macx:message("Building for Mac El-Capitain using sdk 10.11 if this is not found")
-macx:message("Modify UseNGL.pri and modify QMAKE_MACK_SDK to macosx10.10")
+macx:message("Building for macOS Sierra using sdk 10.12 if this is not found")
+macx:message("Modify UseNGL.pri and modify QMAKE_MACK_SDK to macosx10.11 Mac El-Capitain")
 
-macx:QMAKE_MAC_SDK = macosx10.11
+
+macx:QMAKE_MAC_SDK = macosx10.12
+
 # this is where to look for includes
 INCLUDEPATH += $${NGLBASE}/include/
 
