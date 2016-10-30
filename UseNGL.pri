@@ -51,14 +51,14 @@ macx:QMAKE_MAC_SDK = macosx10.11
 INCLUDEPATH += $${NGLBASE}/include/
 
 win32: {
-        PRE_TARGETDEPS+=C:/NGL/lib/NGL.lib
-        INCLUDEPATH+=-I c:/boost
+        PRE_TARGETDEPS+=$$(NGLDIR)/lib/NGL.lib
+        INCLUDEPATH+=-I $$(BOOST)/include/boost-1_61
         DEFINES+=GL42
         DEFINES += WIN32
         DEFINES+=_WIN32
         DEFINES+=_USE_MATH_DEFINES
         LIBS+= -lopengl32
-        LIBS += -LC:/NGL/lib/ -lNGL
+        LIBS += -L$$(NGLDIR)/lib -lNGL
         DEFINES+=NO_DLL
 }
 

@@ -42,9 +42,9 @@ isEqual(QT_MAJOR_VERSION, 5) {DEFINES +=QT5BUILD }
 DEFINES+=ADDLARGEMODELS
 # set the base directory of our project so Qt knows where to find them
 # we can use shell vars but need to use $$
-BASE_DIR = $$(HOME)/NGL
+BASE_DIR = $(NGLDIR)
 # This is the output target we want to create
-TARGET = $$BASE_DIR/lib/NGL
+TARGET = /lib/NGL
 # this is where we want to put the intermediate build files ( ../obj)
 OBJECTS_DIR = $$BASE_DIR/obj
 QMAKE_LFLAGS-= -headerpad_max_install_names
@@ -109,11 +109,11 @@ win32|unix:!macx{
 win32{
 				message("Using Windows check to see what needs to be installed")
 				CONFIG+=staticlib
-				INCLUDEPATH +=C:/boost/
+                                INCLUDEPATH +=$$(BOOST)\include\boost-1_61
 				DEFINES+=_USE_MATH_DEFINES
 				# Silence some boost warnings
 				DEFINES+= _SCL_SECURE_NO_WARNINGS
-				DESTDIR=c:/
+                                DESTDIR=$$BASE_DIR
 				DEFINES += NO_DLL
 				DEFINES += GLEW_STATIC
 }
